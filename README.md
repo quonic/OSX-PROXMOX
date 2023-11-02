@@ -60,3 +60,23 @@ https://youtu.be/dil6iRWiun0
 
 ## Discord - Universo Hackintosh
 - [Discord](https://discord.universohackintosh.com.br)
+
+## Fix for Freezing when booting into recovery
+
+On the Host:
+
+Run `dmesg | grep -i -e tsc -e clocksource` and look for the word `unstable`.
+
+If unstable exists then do the following:
+
+Edit your /etc/default/grub file
+
+`sudo nano /etc/default/grub`
+
+Then replace `GRUB_CMDLINE_LINUX_DEFAULT="quiet` with `GRUB_CMDLINE_LINUX_DEFAULT="quiet clocksource=tsc tsc=reliable mitigations=off`
+
+We want to add `clocksource=tsc tsc=reliable mitigations=off` to GRUB_CMDLINE_LINUX_DEFAULT
+
+Lastly on the host, boot into BIOS/UEFI and disable "ErP mode" or any C state power saving modes.
+
+Save your changes, reboot, go back into the BIOS/UEFI, poweroff, unplug the power cable, plug back in, power on.
